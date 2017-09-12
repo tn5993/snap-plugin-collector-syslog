@@ -98,12 +98,12 @@ func (p *SyslogCollector) init(cfg plugin.Config) error {
 			port = int(value)
 		}
 
-		network := fmt.Sprintf("0.0.0.0:%v", port)
+		network := fmt.Sprintf("127.0.0.1:%v", port)
 		handler := syslog.NewChannelHandler(p.incoming)
 		server := syslog.NewServer()
 		server.SetFormat(syslog.RFC5424)
 		server.SetHandler(handler)
-		server.ListenUDP(network)
+		server.ListenTCP(network)
 		server.Boot()
 
 		p.logger.Println("Listening on ", network)
